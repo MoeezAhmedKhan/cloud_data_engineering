@@ -1,0 +1,4 @@
+Hello, World This is python.
+And I am wiriting the text into file.
+This text override all previous text in this file.
+I am appending this text in file if exist else first create this after that this text will append

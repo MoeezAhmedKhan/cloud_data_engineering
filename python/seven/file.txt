@@ -1,0 +1,4 @@
+Hello, this is a file for learning input and output operations in Python.
+Python makes file handling easy and efficient.
+You can read, write, and append data to files seamlessly.
+Let's explore more about file handling in Python!
