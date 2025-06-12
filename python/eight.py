@@ -99,3 +99,28 @@ class Student:
         print("Jinnah Gov College..")
 
 Student.college()
+
+
+# Q2. Write a Python program to implement a class Account with methods for crediting, debiting, and checking account balance.
+
+class Account:
+    def __init__(self, accountNo, balance):
+        self.accountNo = accountNo
+        self.balance = balance
+    
+    def credit(self,amount):
+        self.balance+=amount
+        print("Rs.",amount,"was credit")
+
+    def debit(self, amount):
+        self.balance-=amount
+        print("Rs.",amount,"was debit")
+
+    def acct_balance(self):
+        print("You account no is",self.accountNo,"and balance is",self.balance)
+
+account = Account(accountNo="Qw1111119", balance=1000)
+account.credit(500)
+account.acct_balance()
+account.debit(400)
+account.acct_balance()
