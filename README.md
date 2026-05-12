@@ -10,8 +10,6 @@
 - Any suggestions or improvements are welcome — but must go through discussion **before** being applied.
 - **Unauthorised changes to course material will not be accepted in Pull Requests.**
 
-> — **Qasim Hassan** · Lead Data Engineer Instructor · Saylani Welfare
-
 </div>
 
 <div align="center">

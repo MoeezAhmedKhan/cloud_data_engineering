@@ -25,6 +25,18 @@
 5. Fetch all products where model_year = 2018.
 */
 
+-- SOLUTION
+-- 1.
+SELECT product_name, model_year, list_price FROM production.products WHERE list_price > 3000;
+-- 2.
+SELECT first_name, last_name, phone FROM sales.customers WHERE phone IS NOT NULL;
+-- 3.
+SELECT * FROM sales.orders WHERE order_status = 4;
+-- 4.
+SELECT store_name, city, state FROM sales.stores;
+-- 5.
+SELECT * FROM production.products WHERE model_year = 2018;
+
 
 
 -- =========================================================
@@ -48,6 +60,18 @@
    and list_price descending.
 */
 
+-- SOLUTION
+-- 1.
+SELECT * FROM production.products ORDER BY list_price DESC, model_year ASC;
+-- 2.
+SELECT * FROM sales.customers ORDER BY state ASC, last_name DESC;
+-- 3.
+SELECT * FROM sales.orders ORDER BY required_date ASC, shipped_date DESC;
+-- 4.
+SELECT * FROM sales.staffs ORDER BY active DESC, first_name ASC;
+-- 5.
+SELECT * FROM production.products ORDER BY brand_id ASC, list_price DESC;
+
 
 
 -- =========================================================
@@ -69,6 +93,18 @@
    and model_year = 2019.
 */
 
+-- SOLUTION
+-- 1.
+SELECT * FROM production.products WHERE list_price >= 1000 AND list_price <= 3000;
+-- 2.
+SELECT * FROM sales.customers WHERE state = 'CA' AND city = 'Los Angeles';
+-- 3.
+SELECT * FROM sales.orders WHERE shipped_date is NULL;
+-- 4.
+SELECT * FROM sales.staffs WHERE active = 1 AND store_id = 2;
+-- 5.
+SELECT * FROM production.products WHERE category_id = 2 AND model_year = 2019;
+
 
 
 -- =========================================================
@@ -89,6 +125,18 @@
 5. Fetch top 15 products
    sorted by model_year descending.
 */
+
+-- SOLUTION
+-- 1.
+SELECT TOP 5 * FROM production.products ORDER BY list_price DESC;
+-- 2.
+SELECT TOP 10 * FROM sales.orders ORDER BY order_date DESC;
+-- 3.
+SELECT TOP 3 * FROM production.products WHERE category_id = 1 ORDER BY list_price ASC;
+-- 4.
+SELECT TOP 7 * FROM sales.customers ORDER BY first_name;
+-- 5.
+SELECT TOP 15 * FROM production.products ORDER BY model_year DESC;
 
 
 
@@ -113,6 +161,17 @@
    and fetch next 5 expensive products.
 */
 
+-- SOLUTION
+-- 1.
+SELECT * FROM production.products ORDER BY list_price DESC OFFSET 5 ROWS FETCH NEXT 5 ROWS ONLY;
+-- 2.
+SELECT * FROM sales.orders ORDER BY order_date DESC OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;
+-- 3.
+SELECT * FROM sales.customers ORDER BY city OFFSET 3 ROWS FETCH NEXT 7 ROWS ONLY;
+-- 4.
+SELECT * FROM production.products ORDER BY product_name OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY;
+-- 5.
+SELECT * FROM production.products ORDER BY list_price OFFSET 5 ROWS FETCH NEXT 5 ROWS ONLY;
 
 
 -- =========================================================
@@ -132,6 +191,17 @@
 5. Fetch unique store_id values from staffs table.
 */
 
+-- SOLUTION
+-- 1.
+SELECT DISTINCT model_year FROM production.products;
+-- 2.
+SELECT DISTINCT order_status FROM sales.orders;
+-- 3.
+SELECT DISTINCT city, state FROM sales.customers;
+-- 4.
+SELECT DISTINCT brand_id FROM production.products;
+-- 5.
+SELECT DISTINCT store_id FROM sales.staffs;
 
 
 -- =========================================================
@@ -159,3 +229,15 @@
    AND list_price > 1500
    AND model_year >= 2018.
 */
+
+-- SOLUTION
+-- 1.
+SELECT * FROM production.products WHERE category_id = 1 AND list_price > 2000 AND model_year = 2019;
+-- 2.
+SELECT * FROM production.products WHERE brand_id = 1 OR brand_id = 2 OR brand_id = 3;
+-- 3.
+SELECT * FROM sales.customers where (state = 'CA' OR state = 'NY') AND phone IS NOT NULL;
+-- 4.
+SELECT * FROM sales.staffs WHERE active = 1 AND (store_id = 1 OR store_id = 2);
+-- 5.
+SELECT * FROM production.products WHERE (category_id = 2 OR category_id = 3) AND list_price > 1500 AND model_year >= 2018;
