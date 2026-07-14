@@ -1,5 +1,2 @@
-Hello Python
-This is r+ mode
-I am in practice mode
-This is r+ mode
+This is r+ mode 3
 I am in practice modeThis is the wrilines functionFor create multiple line in a fileAt a time
