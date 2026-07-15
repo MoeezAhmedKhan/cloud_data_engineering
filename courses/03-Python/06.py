@@ -13,7 +13,7 @@
 
 lst = [1, 2, 3, 4, 5]
 
-# print(lst[5])
+print(lst[5])
 # Raises IndexError because index 5 does not exist.
 
 
@@ -22,7 +22,7 @@ lst = [1, 2, 3, 4, 5]
 # Example 2 - ZeroDivisionError
 # ==========================================================
 
-# print(20 / 0)
+print(20 / 0)
 # Raises ZeroDivisionError.
 
 
@@ -150,3 +150,72 @@ else:
 
 finally:
     print("Attempted")
+    
+    
+    
+    
+
+# ==========================================================
+# Raising Exceptions Manually
+# ==========================================================
+
+# Sometimes a program runs successfully,
+# but the data is invalid or incomplete.
+#
+# In this case, we can raise an exception manually
+# using the "raise" keyword.
+#
+# This is useful in real-world applications like:
+# - Data Pipelines
+# - API Validation
+# - User Input Validation
+# - Database Operations
+
+
+# Example 1
+
+# Suppose a data pipeline runs every 5 minutes.
+# The pipeline is running successfully,
+# but an invalid batch size is received.
+#
+# Instead of continuing with incorrect data,
+# we raise an exception immediately.
+
+# def set_batch_size(n):
+#     if n <= 0:
+#         raise ValueError(f"Batch size must be positive. Got: {n}")
+#
+#     return n
+#
+# print(set_batch_size(100))   # Valid
+# print(set_batch_size(-5))    # Raises ValueError
+
+
+
+# ==========================================================
+# Example 2 - Raise KeyError
+# ==========================================================
+
+# This example checks whether a required key
+# exists in a dictionary.
+#
+# If the key is missing,
+# a KeyError is raised manually.
+
+def load_record(data, key):
+
+    if key not in data:
+        raise KeyError(
+            f"Required field '{key}' is missing from the record."
+        )
+
+    return data[key]
+
+
+record = {
+    "name": "Alice",
+    "status": "active"
+}
+
+print(load_record(record, "name"))     # Output: Alice
+print(load_record(record, "email"))    # Raises KeyError
