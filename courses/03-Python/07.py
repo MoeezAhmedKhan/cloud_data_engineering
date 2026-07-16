@@ -1,327 +1,221 @@
-# OOP
-
-# An OOP (Object-Oriented Programming) language is a programming style where you organize your code around "objects" (which represent real-world things with data and actions) rather than just functions and logic.
-# It provice reusablity
-# What Is a Class?
-# A class is a blueprint. It describes what a thing holds (like attributes / methods).
-
-# A Class:
-class BankAccount:
-    # __init__ is a constructor is a special method which run when object of class created.
-    def __init__(self, owner, balance=0): # these are parameter
-        self.owner = owner
-        self.balance = balance
-    # The self parameter is a reference to the current
-    # instance of the class, and is used to access variables
-    # that belongs to the class.
-    
-    def deposit(self, amount = 0):
-        self.balance += amount
-        print(f"{self.owner} your deposited amount {amount}, new balance is: {self.balance}")
-    
-    def withdraw(self, amount):
-        self.balance -= amount
-        print(f"Withdraw amount {amount}")
-        
-    def  balanceCheck(self):
-        print(f"Current Balance {self.balance}")
-# Now Creating Object/Instance
-ali = BankAccount("Ali", 5000) # A class object
-bilal = BankAccount("Bilal", 5000) # A class object
-
-print(ali.balance)
-ali.deposit(100)
-ali.withdraw(50)
-ali.balanceCheck()
-
-
-
-# Static Method - Its doesnt use self parameter (Work at class level)
-
-class Student:
-    
-    @staticmethod # Decorator
-    def greeting():
-        print("Hey there ...")
-        
-# Student().greeting() # It doent need a instance because it is static.
-Student.greeting()
+# ==========================================================
+# Error Handling in Python
+# ==========================================================
 
-
-
-# Now Pillar Of OOP 
-# 4 Types of pillar
-# 1. Inheritance
-# 2. Polymorphism
-# 3. Abstraction
-# 4. Encapsulation
-
-
-# 1. Inheritance:
-# Inheritance is a feature that lets child class use the properties and methods of its parent class.
-
-# Types Of Inheritance
-# Single Inheritance : One Parent -> One Child
-# Multilevel Inheritance : Parent -> Child -> Sub Child
-# Multiple Inheritance, Two Parent -> One Child
-# Hirarical Inheritance : One Parent => Two or more child
-# Hybrid Inheritance, Multiple Types Of Inheritance at a time
+# Error handling prevents the program from crashing.
+# It allows us to handle unexpected errors and display
+# meaningful messages to the user.
 
-# 1. Single Inheritance
-class Animal:
-    def __init__(self, name):
-        self.name = name
 
-    def eat(self):
-        return f"{self.name} is eating."
+# ==========================================================
+# Example 1 - Index Error
+# ==========================================================
 
-    def speak(self):
-        return f"{self.name} makes a sound."
+lst = [1, 2, 3, 4, 5]
 
+print(lst[5])
+# Raises IndexError because index 5 does not exist.
 
-class Dog(Animal): # Inheritance
-    def speak(self): # overrides the parent method
-        return f"{self.name} says: Woof!"
-    
-    
 
 
-dog = Dog("Bruno")
-print(dog.name)
-print(dog.eat())      # inherited from Animal
-print(dog.speak())    # overridden in Dog
+# ==========================================================
+# Example 2 - ZeroDivisionError
+# ==========================================================
 
+print(20 / 0)
+# Raises ZeroDivisionError.
 
-# 2.Hirarical Inheritance
 
-class Vehicle:
-    def __init__(self, brand, model, speed):
-        self.brand = brand
-        self.model = model
-        self.speed = speed
-    
-    def info(self):
-        print(f"{self.brand} - {self.model} - {self.speed}")
-        
 
-class Car(Vehicle):
-    def __init__(self, brand, model, speed, door):
-        # First call parent contructor and pass arguments via init contructor because parent contructor need some arguments.
-        super().__init__(brand, model, speed)
-        self.door = door
+# ==========================================================
+# Using try and except
+# ==========================================================
 
+# Python uses "try" and "except" to handle exceptions.
 
-class Truck(Vehicle):
-    def __init__(self, brand, speed, model, Tyre):
-        super().__init__(brand, speed, model)
-        self.Tyre = Tyre
-       
-        
-civic = Car("Honda", "2019", 1800, 4)
-civic.info()
-print(civic.door)
+userInput = int(input("Enter Number: "))
 
+try:
+    print(20 / userInput)
+except:
+    print("Enter a non-zero number.")
 
-# 3.Multilevel Inheritance
 
-class Animal:
-    def breathe(self):
-        return "Breathing air."
 
-class Mammal(Animal):
-    def feed_young(self):
-        return "Feeding young with milk."
+# ==========================================================
+# Handling a Specific Exception
+# ==========================================================
 
-class Dog(Mammal):
-    def speak(self):
-        return "Woof!"
+value = "forty-two"
 
+try:
+    number = int(value)
+    print(f"Converted: {number}")
 
-dog = Dog()
-print(dog.breathe())      # from Animal
-print(dog.feed_young())   # from Mammal
-print(dog.speak())        # from Dog
+except ValueError:
+    # This block runs only for ValueError.
+    print(f"Could not convert '{value}' to an integer.")
 
 
 
-# 4.Multiple Inheritance
+# ==========================================================
+# Handling All Exceptions
+# ==========================================================
 
-class Animal:
-    def __init__(self, name):
-        self.name = name
+# Exception is the parent class of most built-in exceptions.
 
-    def breathe(self):
-        return f"{self.name} breathes air."
-    
-    def speed(self):
-        return f"{self.name} run's fast"
+try:
+    print(20 / userInput)
 
+except Exception as e:
+    print(f"Error Occurred: {e}")
 
-class Swimmer:
-    def swim(self):
-        return "Swimming through water."
 
-    def speed(self):
-        return f"{self.name} swim's fast"
 
+# ==========================================================
+# Multiple Except Blocks
+# ==========================================================
 
-class Duck(Animal, Swimmer):          # inherits from both
-    def speak(self):
-        return f"{self.name} says: Quack!"
+# Different exceptions can be handled separately.
 
+try:
+    file = open("./iofiles/myiofile.txt", "r")
 
-duck = Duck("Donald")
-print(duck.breathe())   # from Animal
-print(duck.swim())      # from Swimmer
-print(duck.speak())     # Duck's own method
+except FileNotFoundError as f:
+    print(f"Error Occurred: {f}")
 
-# Python resolves methods using Method Resolution Order (MRO). 
-# If multiple parent classes have the same method, 
-# Python uses the method from the first parent class listed in the inheritance declaration.
-print(duck.speed())
+except Exception as e:
+    print(f"Error: {e}")
 
 
-# 5. Hybrid Inheritance
 
-# A combination of two or more of the above types. 
-# For example, hierarchical inheritance where one of the children also has multiple parents.
+# ==========================================================
+# Traceback Module
+# ==========================================================
 
-class Animal:
-    def breathe(self):
-        return "Breathing."
+# The traceback module provides detailed error information,
+# including the file name and line number.
 
-class Mammal(Animal):
-    def feed_young(self):
-        return "Feeding young."
+import traceback
 
-class Swimmer(Animal):
-    def swim(self):
-        return "Swimming."
+try:
+    print(100 / 0)
 
-class Dolphin(Mammal, Swimmer):
-    def speak(self):
-        return "Click click!"
+except Exception as e:
+    print(traceback.format_exception(e))
 
 
-d = Dolphin()
-print(d.breathe())      # Animal
-print(d.feed_young())   # Mammal
-print(d.swim())         # Swimmer
-print(d.speak())        # Dolphin    
 
+# ==========================================================
+# else and finally
+# ==========================================================
 
+# else:
+# Executes only if no exception occurs.
 
-# 2 Encapsulation
-# Encapsulation hides data using access modifiers.
+# finally:
+# Always executes whether an exception occurs or not.
+# It is commonly used for cleanup tasks like:
+# - Closing files
+# - Closing database connections
+# - Releasing resources
 
-# Access Modifiers
-# 1. Public - Can be use outside the class
-# 2. Protected - Can use inside the class and in child class
-# 3. Private - Cannot use outside the class
 
-class Person:
-    def __init__(self, name, age, password):
-        self.name      = name       # public   — anyone can read or change
-        self._age      = age        # protected — intended for internal use
-        self.__password = password  # private   — name mangled by Python
+# Example 1
 
-    def get_age(self):
-        return self._age            # controlled access through a method
+try:
+    file = open("./iofiles/myiofile.txt", "r")
 
-    def check_password(self, attempt):
-        return attempt == self.__password
-    
-    # setter
-    def update_password(self, oldPassword, newPassword):
-        if oldPassword == self.__password:
-            self.__password = newPassword
-            print("Password Updated!")
-        else:
-            print("Your old password is incorrect")
-            
-            
-     # getter   
-    def get_detail(self):
-        print(f"Name: {self.name} , Password: {self.__password}")
-    
-    
+except FileNotFoundError as f:
+    print(f"Error Occurred: {f}")
 
+else:
+    print(f"File loaded successfully: {len(file.read())} characters.")
 
-p = Person("Alice", 30, "secret123")
+finally:
+    print("Attempted")
 
-print(p.name)          # ✓ Public — works fine
-print(p._age)          # ✓ Works, but you shouldn't do this outside the class
-print(p.get_age())     # ✓ Correct way to access protected data
-print(p.check_password("secret123"))
-
-# It gives an error because this is private
-# print(p.__password)
-
-print(f"Passsword show: {p._Person__password}")
-# Python store private variable like _Person__password not like _password
-
-# We have to create getter and setter for getting and update this.
-p.update_password("secret123","hello123")
-p.get_detail()
-
-
-
-
-# Polymorphism - (Poly = Multiple) , (Morphism = Forms)
-
-# Polymorphism means the same method name produces different behavior depending on which class is calling it.
-
-# Example 1:
-print(1)
-print("Hello")
-print(True)
 
 
 # Example 2
 
-class Dog:
-    def speak(self):
-        return "Woof!"
+try:
+    file = open("./iofiles/file.txt", "r")
 
-class Cat:
-    def speak(self):
-        return "Meow!"
+except FileNotFoundError as f:
+    print(f"Error Occurred: {f}")
 
-class Bird:
-    def speak(self):
-        return "Tweet!"
+else:
+    print(f"File loaded successfully: {len(file.read())} characters.")
 
-class Cow:
-    def speak(self):
-        return "Moo!"
+finally:
+    print("Attempted")
+    
+    
+    
+    
 
+# ==========================================================
+# Raising Exceptions Manually
+# ==========================================================
 
-animals = [Dog(), Cat(), Bird(), Cow()]
-
-for animal in animals:
-    print(f"{animal.__class__.__name__}: {animal.speak()}")
-
-
-
-
-# Abstraction
-# Abstraction means hiding implementation details and showing only the necessary features to the user.
-
-from abc import ABC, abstractmethod
-
-
-class Animal(ABC): # Abstract Class
-
-    @abstractmethod
-    def sound(self):
-        pass
+# Sometimes a program runs successfully,
+# but the data is invalid or incomplete.
+#
+# In this case, we can raise an exception manually
+# using the "raise" keyword.
+#
+# This is useful in real-world applications like:
+# - Data Pipelines
+# - API Validation
+# - User Input Validation
+# - Database Operations
 
 
-class Dog(Animal):
+# Example 1
 
-    def sound(self):
-        print("Dog says: Bark")
+# Suppose a data pipeline runs every 5 minutes.
+# The pipeline is running successfully,
+# but an invalid batch size is received.
+#
+# Instead of continuing with incorrect data,
+# we raise an exception immediately.
+
+# def set_batch_size(n):
+#     if n <= 0:
+#         raise ValueError(f"Batch size must be positive. Got: {n}")
+#
+#     return n
+#
+# print(set_batch_size(100))   # Valid
+# print(set_batch_size(-5))    # Raises ValueError
 
 
-dog = Dog()
-dog.sound()
+
+# ==========================================================
+# Example 2 - Raise KeyError
+# ==========================================================
+
+# This example checks whether a required key
+# exists in a dictionary.
+#
+# If the key is missing,
+# a KeyError is raised manually.
+
+def load_record(data, key):
+
+    if key not in data:
+        raise KeyError(
+            f"Required field '{key}' is missing from the record."
+        )
+
+    return data[key]
+
+
+record = {
+    "name": "Alice",
+    "status": "active"
+}
+
+print(load_record(record, "name"))     # Output: Alice
+print(load_record(record, "email"))    # Raises KeyError

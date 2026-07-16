@@ -1,221 +1,487 @@
 # ==========================================================
-# Error Handling in Python
+# File Handling, CSV & JSON
 # ==========================================================
-
-# Error handling prevents the program from crashing.
-# It allows us to handle unexpected errors and display
-# meaningful messages to the user.
 
 
 # ==========================================================
-# Example 1 - Index Error
+# File Modes
 # ==========================================================
 
-lst = [1, 2, 3, 4, 5]
-
-print(lst[5])
-# Raises IndexError because index 5 does not exist.
-
-
-
-# ==========================================================
-# Example 2 - ZeroDivisionError
-# ==========================================================
-
-print(20 / 0)
-# Raises ZeroDivisionError.
-
+# Mode    Meaning             Creates File?      Overwrites Data?
+# ---------------------------------------------------------------
+# "r"     Read                No                 No
+# "w"     Write               Yes                Yes
+# "a"     Append              Yes                No
+# "x"     Create              Yes                Error if file exists
+# "r+"    Read and Write      No                 No
 
 
 # ==========================================================
-# Using try and except
+# 1. Reading a File
 # ==========================================================
 
-# Python uses "try" and "except" to handle exceptions.
+file = open("./iofiles/file.txt", "r")
 
-userInput = int(input("Enter Number: "))
+# Read complete file
+readed = file.read()
+print(type(readed))
+print(readed)
 
-try:
-    print(20 / userInput)
-except:
-    print("Enter a non-zero number.")
+# Read first 3 characters
+selectedChar = file.read(3)
+print(selectedChar)
 
+# Read first line
+lineRead1 = file.readline()
+print(lineRead1)
 
+# Read second line
+lineRead2 = file.readline()
+print(lineRead2)
 
-# ==========================================================
-# Handling a Specific Exception
-# ==========================================================
-
-value = "forty-two"
-
-try:
-    number = int(value)
-    print(f"Converted: {number}")
-
-except ValueError:
-    # This block runs only for ValueError.
-    print(f"Could not convert '{value}' to an integer.")
+file.close()
 
 
 
 # ==========================================================
-# Handling All Exceptions
+# 2. Write Mode ("w")
 # ==========================================================
 
-# Exception is the parent class of most built-in exceptions.
+# "w" removes old data before writing new data.
 
-try:
-    print(20 / userInput)
+wr = open("./iofiles/writer.txt", "w")
 
-except Exception as e:
-    print(f"Error Occurred: {e}")
+wr.write("This is the file for learning Python.")
 
+wr.write("This text will overwrite previous data.")
 
-
-# ==========================================================
-# Multiple Except Blocks
-# ==========================================================
-
-# Different exceptions can be handled separately.
-
-try:
-    file = open("./iofiles/myiofile.txt", "r")
-
-except FileNotFoundError as f:
-    print(f"Error Occurred: {f}")
-
-except Exception as e:
-    print(f"Error: {e}")
+wr.close()
 
 
 
 # ==========================================================
-# Traceback Module
+# 3. Append Mode ("a")
 # ==========================================================
 
-# The traceback module provides detailed error information,
-# including the file name and line number.
+# "a" adds new data at the end of the file.
 
-import traceback
+app = open("./iofiles/writer.txt", "a")
 
-try:
-    print(100 / 0)
+app.write("This is the appended text.")
+app.write("\nThis is the second appended line.")
+app.write("\nThis is the third appended line.")
 
-except Exception as e:
-    print(traceback.format_exception(e))
+app.close()
+
+
+
+# Note:
+# "w" and "a" create the file automatically if it does not exist.
 
 
 
 # ==========================================================
-# else and finally
+# 4. Create Mode ("x")
 # ==========================================================
 
-# else:
-# Executes only if no exception occurs.
+# "x" creates a new file.
+# It gives an error if the file already exists.
 
-# finally:
-# Always executes whether an exception occurs or not.
-# It is commonly used for cleanup tasks like:
-# - Closing files
-# - Closing database connections
-# - Releasing resources
+newfile = open("./iofiles/myfile.txt", "x")
 
+newfile.write("Hello! This is x mode.")
 
-# Example 1
-
-try:
-    file = open("./iofiles/myiofile.txt", "r")
-
-except FileNotFoundError as f:
-    print(f"Error Occurred: {f}")
-
-else:
-    print(f"File loaded successfully: {len(file.read())} characters.")
-
-finally:
-    print("Attempted")
+newfile.close()
 
 
 
-# Example 2
+# ==========================================================
+# 5. Read and Write Mode ("r+")
+# ==========================================================
 
-try:
-    file = open("./iofiles/file.txt", "r")
+# "r+" allows both reading and writing.
+# The file must already exist.
 
-except FileNotFoundError as f:
-    print(f"Error Occurred: {f}")
+ffile = open("./iofiles/file.txt", "r+")
 
-else:
-    print(f"File loaded successfully: {len(file.read())} characters.")
+ffile.write("This is r+ mode.")
+ffile.write("\nI am practicing file handling.")
 
-finally:
-    print("Attempted")
+ffile.writelines([
+    "\nThis is writelines() function.",
+    "\nIt writes multiple lines.",
+    "\nAt one time."
+])
+
+print(ffile.read())
+
+ffile.close()
+
+
+
+# Important:
+#
+# After write(), the file pointer moves to the end of the file.
+#
+# read() starts reading from the current pointer position.
+#
+# Since the pointer is already at the end,
+# read() returns an empty string.
+#
+# Move the pointer to the beginning before reading.
+#
+# Example:
+#
+# ffile.seek(0)
+# print(ffile.read())
+
+
+
+# ==========================================================
+# 6. Using "with" Keyword
+# ==========================================================
+
+# "with" automatically closes the file.
+
+with open("./iofiles/file.txt", "r") as file:
+
+    fileRead = file.read()          # Read complete file
+
+    content = file.readline()       # Read first line
+
+    myContent = file.readlines()    # Read all lines
+
+print(myContent)
+
+for i in myContent[:2]:
+    print(i)
+
+
+
+# ==========================================================
+# 7. Write Multiple Lines
+# ==========================================================
+
+with open("./iofiles/mycontent.txt", "w") as file:
+
+    con = [
+        "City : Karachi\n",
+        "Status : Active\n",
+        "ID : 23098\n"
+    ]
+
+    file.writelines(con)
+
+
+
+# ==========================================================
+# 8. Append Data Using "with"
+# ==========================================================
+
+with open("./iofiles/mycontent.txt", "a") as file:
+
+    file.write("\nName : Ali")
+
+
+
+# ==========================================================
+# 9. Delete a File
+# ==========================================================
+
+import os
+
+# os.remove("./iofiles/myphonedirectory.txt")
+
+
+
+
+# ==========================================================
+# PRACTICE QUESTIONS
+# ==========================================================
+
+
+# ----------------------------------------------------------
+# Question 1
+# ----------------------------------------------------------
+#
+# File contains:
+#
+# Ali
+# Ahmed
+# Usman
+# Ali
+# Hamza
+# Ali
+#
+# Tasks:
+# 1. Count total lines.
+# 2. Count how many times "Ali" appears.
+#
+# Write your solution below:
+
+with open("./iofiles/practice.txt", 'r') as pracFile:
+    totalLine = 0
+    nameCount = 0
+    fileLines = pracFile.readlines()
+    for i in range(len(fileLines)):
+        totalLine += 1
+        if(str(fileLines[i]).strip() == "Ali"):
+            nameCount += 1
+print(f"Name count: {nameCount} \nTotal lines: {totalLine}")            
+            
+
+
+# ----------------------------------------------------------
+# Question 2
+# ----------------------------------------------------------
+#
+# File contains:
+#
+# Python is easy
+# Learning Python
+# Flutter and Python
+# Java
+#
+# Ask the user for a word.
+# Print every line number where that word exists.
+# If not found, print "Word not found".
+#
+# Write your solution below:
+
+with open("./iofiles/practice.txt", 'r') as pracFile:
+    fileLines = pracFile.readlines()
+    getInput = True
+    while getInput:
+        foundList = []
+        getInput = input("Input your word | For terminal enter exit: ")
+        if(getInput.lower() == "exit"):
+            getInput = False
+            break
+        for i in range(len(fileLines)):
+            if(getInput in fileLines[i]):
+                foundList.append(i+1)
+        
+        if(len(foundList) != 0):
+            for i in foundList:
+                print("Word Found At Line: ",i)
+        else:
+            print("Word Not Found")
+                
+        
+
+
+
+# ----------------------------------------------------------
+# Question 3
+# ----------------------------------------------------------
+#
+# File contains:
+#
+# 12,45,23,78,90,11,8,100
+#
+# Tasks:
+# 1. Print all even numbers.
+# 2. Print all odd numbers.
+# 3. Print the sum of all even numbers.
+#
+# Write your solution below:
+
+with open("./iofiles/practice.txt", 'r') as pracFile:
+    practiceFile = pracFile.readline().split(",")
+    sumOfEven = 0
+    for i in practiceFile:
+        if(int(i) % 2 == 0):
+            sumOfEven+=int(i)
+            print(i, "is Even")
+        else:
+            print(i, "is Odd")
+    print("Sum of even is ", sumOfEven)
     
+
+
+
+# ----------------------------------------------------------
+# Question 4
+# ----------------------------------------------------------
+#
+# Read a text file and find:
+#
+# 1. Total lines
+# 2. Total words
+# 3. Total characters
+#
+# Write your solution below:
+
+with open("./iofiles/practice.txt", 'r') as pracF:
+    myFile = pracF.readlines()
+    totalLine = 0
+    toTalWord = 0
+    totalChar = 0
+    for i in myFile:
+        totalLine += 1
+        toTalWord += len(i.split(" "))
+        for j in range(len(i)):
+            if(i[j]):
+                totalChar += 1
+        
+    print(f"Total Lines: {totalLine}")
+    print(f"Total Lines: {toTalWord}")
+    print(f"Total Char: {totalChar}")
+
+
+
+# ----------------------------------------------------------
+# Question 5
+# ----------------------------------------------------------
+#
+# File contains:
+#
+# Ali,87
+# Ahmed,45
+# Usman,91
+# Hamza,39
+# Sara,72
+#
+# Print:
+#
+# Passed Students
+#
+# Failed Students
+#
+# Passing marks = 50
+#
+# Write your solution below:
+
+with open("./iofiles/practice.txt", 'r') as pf:
+    dictnory = {}
+    listOfStudent = [] 
     
+    # Data cleaning because the file has raw data
+    for x in pf.readlines():
+        pFile = x.split(",")
+        for i in range(len(pFile)):
+            if(i == 0):
+                dictnory["name"] = pFile[0].strip()
+            else:
+                dictnory["marks"] = pFile[1].strip()
+            
+        listOfStudent.append(dictnory)
+        dictnory = {}
+        
+    for i in listOfStudent:
+        if(int(i["marks"]) >= 50):
+            print(f"{i["name"]} is passed marks {i["marks"]}")
+        else:
+            print(f"{i["name"]} is failed marks {i["marks"]}")
+
+
+
+
+# ----------------------------------------------------------
+# Question 6
+# ----------------------------------------------------------
+#
+# File contains:
+#
+# Ali,11111111111
+# Ahmed,22222222222
+# Usman,33333333333
+# Hamza,44444444444
+# Ali,66666666666
+#
+# Ask the user for a name.
+# Print the phone number if found.
+# Otherwise print "Contact not found".
+#
+# Write your solution below:
+
+with open("./iofiles/practice.txt", 'r') as myf:
+    directory = {}
+    listOfDirectory = []
+    foundNumber = [] # may have multiple same names in phone directry.
     
+    # Data cleaning because the file has raw data
+    for x in myf.readlines():
+        value = x.split(",")
+        for i in range(len(value)):
+            if(i == 0):
+                directory["name"] = value[i].strip()
+            else:
+                directory["phone"] = value[i].strip()
+            
+        listOfDirectory.append(directory)
+        directory = {}
+       
+    strInput = input("Search Name in Directory: ")
+    for i in listOfDirectory:
+        if(strInput == i["name"]):
+            foundNumber.append(i["phone"])
+    
+    if len(foundNumber) != 0:
+        print("Number Found: ", foundNumber)
+    else:
+        print("Contact Not Found")
+            
+            
+        
+
+
+
+
+
+# ==========================================================
+# CSV Files
+# A CSV (comma-separated values) file stores tabular data as plain text. 
+# Each line is a row. Each value within a row is separated by a comma. The first row is usually a header.
+# ==========================================================
+
+
+import csv
+
+with open("./iofiles/employees.csv", "r") as csvFile:
+    readedFile = csv.DictReader(csvFile)
+    for i in readedFile:
+        print(i['id'], "-", i["name"])
+        
+# Write:
+
+records = [
+    {"id": 1, "name": "Alice", "department": "Engineering", "status": "active"},
+    {"id": 2, "name": "Bob",   "department": "Finance",     "status": "active"},
+]
+
+with open("./iofiles/output.csv", "w", newline="") as f:
+    fieldnames = ["id", "name", "department", "status"]
+    writer = csv.DictWriter(f, fieldnames=fieldnames)
+
+    writer.writeheader()
+    writer.writerows(records)
     
 
-# ==========================================================
-# Raising Exceptions Manually
-# ==========================================================
-
-# Sometimes a program runs successfully,
-# but the data is invalid or incomplete.
-#
-# In this case, we can raise an exception manually
-# using the "raise" keyword.
-#
-# This is useful in real-world applications like:
-# - Data Pipelines
-# - API Validation
-# - User Input Validation
-# - Database Operations
-
-
-# Example 1
-
-# Suppose a data pipeline runs every 5 minutes.
-# The pipeline is running successfully,
-# but an invalid batch size is received.
-#
-# Instead of continuing with incorrect data,
-# we raise an exception immediately.
-
-# def set_batch_size(n):
-#     if n <= 0:
-#         raise ValueError(f"Batch size must be positive. Got: {n}")
-#
-#     return n
-#
-# print(set_batch_size(100))   # Valid
-# print(set_batch_size(-5))    # Raises ValueError
-
-
 
 # ==========================================================
-# Example 2 - Raise KeyError
+# Working with JSON
+# JSON (JavaScript Object Notation) is the data format of APIs and configuration files. 
+# It looks almost identical to a Python dictionary — key-value pairs, arrays, nested objects.
 # ==========================================================
 
-# This example checks whether a required key
-# exists in a dictionary.
-#
-# If the key is missing,
-# a KeyError is raised manually.
+import json
 
-def load_record(data, key):
+# json.loads() parses a JSON string into a Python object:
 
-    if key not in data:
-        raise KeyError(
-            f"Required field '{key}' is missing from the record."
-        )
+response = '{"status": "ok", "records": 4200, "errors": null}'
+data = json.loads(response)
 
-    return data[key]
+print(data)
 
+# json.dumps() converts a Python object into a JSON string:
 
-record = {
-    "name": "Alice",
-    "status": "active"
+result = {
+    "pipeline": "daily_load",
+    "rows_loaded": 9500,
+    "success": True
 }
 
-print(load_record(record, "name"))     # Output: Alice
-print(load_record(record, "email"))    # Raises KeyError
+json_string = json.dumps(result)
+print(json_string)
+print(type(json_string))
