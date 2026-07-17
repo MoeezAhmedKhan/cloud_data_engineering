@@ -47,7 +47,7 @@ print(f"Numbers greater than five {numbers[mask]}")
 
 # NumPy (NP) Where
 where_result = np.where(numbers > 5)
-print(f"Wehere results {numbers[where_result]}")
+print(f"Where results {numbers[where_result]}")
 
 conditionalArr = np.where(numbers > 5, "True", "False") # Where condition satisfying so there return True else False
 print(conditionalArr)

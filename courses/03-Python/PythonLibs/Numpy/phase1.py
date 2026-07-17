@@ -25,9 +25,9 @@ print(npArr * 2)
 # Checking time
 
 import time
-startTime = time.time()
-pyList = [i for i in range(10000000)]
-print(f"Python List Generation Time Taked : {time.time() - startTime}")
+startTime = time.time() # It give current time in seconds
+pyList = [i for i in range(10000000)] # It wiil generate a big list
+print(f"Python List Generation Time Taked : {time.time() - startTime}") # Current time - Start time
 
 # VS
 
@@ -76,6 +76,33 @@ print(f"Rows and Columns : {npArr.shape}")
 print(f"Data Type of each element : {npArr.dtype}")
 print(f"Dimention (Dept of array) : {npArr.ndim}")
 print(f"Count of total elements : {npArr.size}")
+
+
+# Slicing:
+
+slic1 = np.array([2,3,5,4,7,9,5,0,11])
+
+print(f"Slice 1: {slic1[0:]}")
+print(f"Slice 2: {slic1[5:8]}")
+print(f"Slice 3: {slic1[5:8]}")
+print(f"Slice 4: {slic1[::-1]}")
+print(f"Slice 5: {slic1[3:5]}")
+print(f"Slice 6: {slic1[-5:-7:-1]}")
+
+npArrSlice = np.array([ [1,2,3],
+                        [4,5,6],
+                        [7,8,9] ])
+
+print(f"Slicing 7: \n {npArrSlice[::-1]}")
+print(f"Slicing 8: \n {npArrSlice[1::]}")
+print(f"Slicing 9: \n {npArrSlice[2:4]}")
+print(f"Slicing 10: \n {npArrSlice[-2::-1]}")
+
+# Get specific element in np array 
+print(f"Slicing 11: \n {npArrSlice[0,0]}")
+print(f"Slicing 12: \n {npArrSlice[2,2]}")
+print(f"Slicing 13: \n {npArrSlice[1,0:2]}")
+print(f"Slicing 13: \n {npArrSlice[1:3,0:2]}")
 
 
 # Now Move OnTo Array Reshaping
